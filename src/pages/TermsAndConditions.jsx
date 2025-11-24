@@ -5,12 +5,12 @@ export default function TermsAndConditions() {
     <div style={{ padding: "20px" }}>
       <h1>Terms and Conditions</h1>
       <p>
-        By using StrayCare, you agree to provide accurate information and not
-        misuse our rescue and reporting platform.
+        By using StrayCare, you agree to our policies regarding reporting cases,
+        adoption services, and donations made to NGOs.
       </p>
       <p>
-        Donations made are voluntary and go directly to registered NGOs listed
-        on our platform.
+        We reserve the right to update these terms at any time to improve user
+        safety and platform functionality.
       </p>
     </div>
   );

@@ -5,8 +5,8 @@ export default function ShippingPolicy() {
     <div style={{ padding: "20px" }}>
       <h1>Shipping Policy</h1>
       <p>
-        StrayCare does not involve any physical shipping of goods. Our services
-        are digital — reporting cases, donations, and adoption support.
+        StrayCare does not ship any physical products. All services, such as
+        reporting cases, donations, and adoption requests, are fully digital.
       </p>
     </div>
   );

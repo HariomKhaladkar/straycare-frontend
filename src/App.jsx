@@ -30,6 +30,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import RefundPolicy from "./pages/RefundPolicy";
 import ShippingPolicy from "./pages/ShippingPolicy";
+import ContactUs from "./pages/ContactUs";
 
 const UserProtectedRoute = () => localStorage.getItem('token') ? <Outlet /> : <Navigate to="/login" replace />;
 const NgoProtectedRoute = () => localStorage.getItem('ngo_token') ? <Outlet /> : <Navigate to="/ngo-login" replace />;
@@ -139,6 +140,7 @@ function App() {
             <Route path="/terms" element={<TermsAndConditions />} />
             <Route path="/refunds" element={<RefundPolicy />} />
             <Route path="/shipping" element={<ShippingPolicy />} />
+            <Route path="/contact" element={<ContactUs />} />
 
           </Routes>
         </main>
