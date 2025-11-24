@@ -20,7 +20,7 @@ const MyReports = () => {
             return;
         }
         try {
-            const response = await axios.get('http://127.0.0.1:8000/users/me/cases', {
+            const response = await axios.get('/users/me/cases', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setCases(response.data);

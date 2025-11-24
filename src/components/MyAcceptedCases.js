@@ -18,7 +18,7 @@ const MyAcceptedCases = () => {
                 return;
             }
             try {
-                const response = await axios.get('http://127.0.0.1:8000/ngo/me/cases', {
+                const response = await axios.get('/ngo/me/cases', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 // Filter the results to only show 'Accepted' cases

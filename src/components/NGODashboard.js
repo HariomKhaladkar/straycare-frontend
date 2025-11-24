@@ -22,7 +22,7 @@ const UpdateCaseModal = ({ caseData, onClose, onUpdateSuccess }) => {
         }
         const token = localStorage.getItem('ngo_token');
         try {
-            await axios.post(`http://127.0.0.1:8000/cases/${caseData.id}/updates`, formData, {
+            await axios.post(`/cases/${caseData.id}/updates`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${token}`
@@ -68,7 +68,7 @@ const UpdateCaseModal = ({ caseData, onClose, onUpdateSuccess }) => {
 const CaseCard = ({ caseData, onAccept, onReject, onOpenUpdateModal, isActioning }) => {
     return (
         <div className={`${styles.caseCard} ${styles[caseData.status.toLowerCase()]}`}>
-            <img src={`http://127.0.0.1:8000/${caseData.photo_url}`} alt="Animal" className={styles.cardImage} />
+            <img src={`/${caseData.photo_url}`} alt="Animal" className={styles.cardImage} />
             <div className={styles.cardContent}>
                 <span className={styles.statusBadge}>{caseData.status}</span>
                 <p className={styles.cardDescription}>{caseData.description}</p>
@@ -114,7 +114,7 @@ export default function NGODashboard() {
             return;
         }
         try {
-            const response = await axios.get('http://127.0.0.1:8000/ngo/me/cases', {
+            const response = await axios.get('/ngo/me/cases', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setCases(response.data);
@@ -133,7 +133,7 @@ export default function NGODashboard() {
         setActioningCaseId(caseId);
         const token = localStorage.getItem('ngo_token');
         try {
-            await axios.put(`http://127.0.0.1:8000/case/${caseId}/${action}`, {}, {
+            await axios.put(`/case/${caseId}/${action}`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             await fetchCases();

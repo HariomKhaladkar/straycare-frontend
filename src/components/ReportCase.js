@@ -66,7 +66,7 @@ export default function ReportCase() {
         formData.append("longitude", location.lng);
 
         try {
-            await axios.post("http://127.0.0.1:8000/report", formData, {
+            await axios.post("/report", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`

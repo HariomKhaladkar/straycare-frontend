@@ -21,7 +21,7 @@ export default function NGOLogin() {
         params.append('password', password);
 
         try {
-            const response = await axios.post('http://127.0.0.1:8000/ngo/token', params);
+            const response = await axios.post('/ngo/token', params);
             localStorage.setItem('ngo_token', response.data.access_token);
             localStorage.setItem('ngo_id', response.data.ngo.id);
             navigate('/ngo-dashboard');

@@ -40,7 +40,7 @@ const DonatePage = () => {
 
         try {
             // 2. Create Order on Backend (Internal DB record)
-            const orderRes = await axios.post('http://127.0.0.1:8000/donations/create-order', { 
+            const orderRes = await axios.post('/create-order', { 
                 amount: parseFloat(amount), 
                 ngo_id: ngoId 
             });
@@ -52,7 +52,7 @@ const DonatePage = () => {
             const demoPaymentId = "pay_demo_" + Math.floor(Math.random() * 1000000);
 
             // 4. Verify Payment on Backend (Update DB status to 'Success')
-            await axios.post('http://127.0.0.1:8000/donations/verify', {
+            await axios.post('/donations/verify', {
                 payment_id: demoPaymentId,
                 order_id: orderRes.data.order_id,
                 signature: "demo_signature_bypass"

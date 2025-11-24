@@ -31,7 +31,7 @@ export default function NGORegister() {
         formData.append('document', document);
 
         try {
-            await axios.post('http://127.0.0.1:8000/ngos/register', formData, {
+            await axios.post('/ngos/register', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             setMessage("Registration successful! Your request has been sent to the admin for verification.");

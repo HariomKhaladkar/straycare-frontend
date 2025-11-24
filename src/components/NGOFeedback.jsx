@@ -33,7 +33,7 @@ const NGOFeedback = () => {
         }
 
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/feedback/summary/${ngoId}`);
+            const response = await axios.get(`/feedback/summary/${ngoId}`);
             setSummary(response.data);
         } catch (err) {
             setError("Failed to fetch feedback data.");

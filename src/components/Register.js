@@ -17,7 +17,7 @@ export default function Register() {
         setIsLoading(true);
         setError('');
         try {
-            await axios.post('http://127.0.0.1:8000/users/register', { name, email, password });
+            await axios.post('/users/register', { name, email, password });
             navigate('/login'); // Redirect to login after successful registration
         } catch (err) {
             setError(err.response?.data?.detail || 'Registration failed. Please try again.');

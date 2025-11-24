@@ -12,7 +12,7 @@ const PetCard = ({ pet, onAdoptClick }) => {
     // **FIX #2:** Check if the URL is external (starts with http) or local.
     const imageUrl = pet.image_url.startsWith('http')
         ? pet.image_url
-        : `http://127.0.0.1:8000/${pet.image_url}`;
+        : `/${pet.image_url}`;
 
     return (
         <div className="group border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
@@ -104,7 +104,7 @@ const AdoptionPage = () => {
         const fetchPets = async () => {
             setLoading(true);
             try {
-                const response = await axios.get('http://127.0.0.1:8000/pets');
+                const response = await axios.get('/pets');
                 setPets(response.data);
             } catch (error) {
                 console.error("Failed to fetch pets:", error);
@@ -127,7 +127,7 @@ const AdoptionPage = () => {
         };
         
         try {
-            await axios.post('http://127.0.0.1:8000/adoption-requests', requestData);
+            await axios.post('/adoption-requests', requestData);
             handleCloseAdoptionModal();
             setShowAdoptionConfirmation(true);
             setTimeout(() => setShowAdoptionConfirmation(false), 5000);

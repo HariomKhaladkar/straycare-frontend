@@ -21,7 +21,7 @@ export default function Login() {
         params.append('password', password);
 
         try {
-            const response = await axios.post('http://127.0.0.1:8000/token', params);
+            const response = await axios.post('/token', params);
             
             // 1. Store token AND user data in localStorage
             localStorage.setItem('token', response.data.access_token);
