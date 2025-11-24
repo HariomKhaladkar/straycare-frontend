@@ -26,6 +26,10 @@ import NGOFeedback from './components/NGOFeedback';
 import AdminFeedbackView from './components/AdminFeedbackView';
 import DonatePage from './components/DonatePage';
 import AdminDonations from './components/AdminDonations';
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import RefundPolicy from "./pages/RefundPolicy";
+import ShippingPolicy from "./pages/ShippingPolicy";
 
 const UserProtectedRoute = () => localStorage.getItem('token') ? <Outlet /> : <Navigate to="/login" replace />;
 const NgoProtectedRoute = () => localStorage.getItem('ngo_token') ? <Outlet /> : <Navigate to="/ngo-login" replace />;
@@ -130,6 +134,12 @@ function App() {
               <Route path="/ngo-adopted-pets" element={<AdoptedPetsList />} />
               <Route path="/ngo-feedback" element={<NGOFeedback />} />
             </Route>
+
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<TermsAndConditions />} />
+            <Route path="/refunds" element={<RefundPolicy />} />
+            <Route path="/shipping" element={<ShippingPolicy />} />
+
           </Routes>
         </main>
 
