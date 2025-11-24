@@ -18,7 +18,7 @@ const DonatePage = () => {
 
     useEffect(() => {
         // Fetch the list of NGOs with donation stats
-        axios.get('http://127.0.0.1:8000/donations/ngos')
+        axios.get('/donations/ngos')
             .then(res => setNgos(res.data))
             .catch(err => console.error(err));
     }, []);
