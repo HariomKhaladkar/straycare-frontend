@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-// Dynamically load Razorpay SDK
+// LOAD Razorpay SDK dynamically
 const loadRazorpayScript = () =>
   new Promise((resolve) => {
     const script = document.createElement("script");
@@ -14,13 +14,15 @@ const loadRazorpayScript = () =>
 const DonatePage = () => {
   const [ngos, setNgos] = useState([]);
 
+  // Load NGOs
   useEffect(() => {
     axios
-      .get("/donations/ngos")
+      .get(`${process.env.REACT_APP_API_URL}/donations/ngos`)
       .then((res) => setNgos(res.data))
-      .catch((err) => console.error(err));
+      .catch((err) => console.error("NGO fetch error:", err));
   }, []);
 
+  // Handle donation
   const handleDonate = async (ngoId, ngoName) => {
     const amount = prompt(`How much do you want to donate to ${ngoName}? (₹)`);
 
@@ -31,20 +33,23 @@ const DonatePage = () => {
 
     const loaded = await loadRazorpayScript();
     if (!loaded) {
-      alert("Razorpay SDK failed to load.");
+      alert("Failed to load Razorpay SDK");
       return;
     }
 
     try {
-      // 1️⃣ Create Order on backend
-      const orderRes = await axios.post("/donations/create-order", {
-        amount: parseFloat(amount),
-        ngo_id: ngoId,
-      });
+      // 1️⃣ Create order on backend
+      const orderRes = await axios.post(
+        `${process.env.REACT_APP_API_URL}/donations/create-order`,
+        {
+          amount: parseFloat(amount),
+          ngo_id: ngoId,
+        }
+      );
 
       const { order_id, amount: amt } = orderRes.data;
 
-      // 2️⃣ Razorpay Checkout Options
+      // 2️⃣ Razorpay Checkout
       const options = {
         key: process.env.REACT_APP_RAZORPAY_KEY_ID,
         amount: amt,
@@ -54,14 +59,16 @@ const DonatePage = () => {
         order_id: order_id,
 
         handler: async function (response) {
-          // 3️⃣ Verify payment
-          await axios.post("/donations/verify", {
-            payment_id: response.razorpay_payment_id,
-            order_id: response.razorpay_order_id,
-            signature: response.razorpay_signature,
-          });
+          await axios.post(
+            `${process.env.REACT_APP_API_URL}/donations/verify`,
+            {
+              payment_id: response.razorpay_payment_id,
+              order_id: response.razorpay_order_id,
+              signature: response.razorpay_signature,
+            }
+          );
 
-          alert("🎉 Donation Successful! Thank you ❤️");
+          alert("🎉 Donation successful! Thank you ❤️");
           window.location.reload();
         },
 
@@ -75,20 +82,20 @@ const DonatePage = () => {
         },
       };
 
-      const paymentObj = new window.Razorpay(options);
-      paymentObj.open();
+      const razorpayObject = new window.Razorpay(options);
+      razorpayObject.open();
+
     } catch (err) {
-      console.error("Donation Error:", err);
+      console.error("Donation failed:", err);
       alert("Donation failed. Please try again.");
     }
   };
 
-  // ------- STYLES --------
+  // --- Styles ---
   const containerStyle = {
     maxWidth: "1200px",
     margin: "0 auto",
     padding: "2rem 1rem",
-    fontFamily: "sans-serif",
   };
 
   const cardStyle = {
@@ -96,7 +103,7 @@ const DonatePage = () => {
     borderRadius: "0.5rem",
     padding: "1.5rem",
     backgroundColor: "white",
-    boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+    boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
   };
 
   const buttonStyle = {
@@ -124,50 +131,13 @@ const DonatePage = () => {
           gap: "2rem",
         }}
       >
-        {ngos.length > 0 ? (
+        {ngos.length ? (
           ngos.map((ngo) => (
             <div key={ngo.id} style={cardStyle}>
               <h2 style={{ fontWeight: "bold", fontSize: "1.25rem" }}>
                 {ngo.name}
               </h2>
               <p style={{ color: "#6b7280" }}>{ngo.email}</p>
-
-              <div style={{ marginTop: "1rem" }}>
-                <span style={{ fontWeight: "bold", fontSize: "0.8rem" }}>
-                  Raised in last 30 days:
-                </span>
-
-                <div
-                  style={{
-                    fontSize: "1.3rem",
-                    color: "#059669",
-                    fontWeight: "800",
-                  }}
-                >
-                  ₹{ngo.total_donations_last_30_days}
-                </div>
-
-                <div
-                  style={{
-                    width: "100%",
-                    background: "#e5e7eb",
-                    height: "8px",
-                    borderRadius: "6px",
-                  }}
-                >
-                  <div
-                    style={{
-                      height: "8px",
-                      width: `${Math.min(
-                        (ngo.total_donations_last_30_days / 10000) * 100,
-                        100
-                      )}%`,
-                      background: "#10b981",
-                      borderRadius: "6px",
-                    }}
-                  ></div>
-                </div>
-              </div>
 
               <button
                 onClick={() => handleDonate(ngo.id, ngo.name)}
