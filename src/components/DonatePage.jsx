@@ -17,7 +17,7 @@ const DonatePage = () => {
   // Load NGOs
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/donations/ngos`)
+      .get(`${process.env.REACT_APP_API_BASE_URL}/donations/ngos`)
       .then((res) => setNgos(res.data))
       .catch((err) => console.error("NGO fetch error:", err));
   }, []);
@@ -40,7 +40,7 @@ const DonatePage = () => {
     try {
       // 1️⃣ Create order on backend
       const orderRes = await axios.post(
-        `${process.env.REACT_APP_API_URL}/donations/create-order`,
+        `${process.env.REACT_APP_API_BASE_URL}/donations/create-order`,
         {
           amount: parseFloat(amount),
           ngo_id: ngoId,
@@ -60,7 +60,7 @@ const DonatePage = () => {
 
         handler: async function (response) {
           await axios.post(
-            `${process.env.REACT_APP_API_URL}/donations/verify`,
+            `${process.env.REACT_APP_API_BASE_URL}/donations/verify`,
             {
               payment_id: response.razorpay_payment_id,
               order_id: response.razorpay_order_id,
